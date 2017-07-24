@@ -1,0 +1,48 @@
+
+levels 		= 4	// number of levels of Christmast tree
+topWidth 	= 1 // number of stars at top
+depth		= 5	// number of rows /level
+
+tantque levels > 0 faire
+	
+	
+	curWidth = topWidth
+	row = depth
+	tantque row > 0 faire
+		spaces = 30 - curWidth / 2	
+		tantque spaces > 0 faire
+			affiche " "
+			spaces = spaces - 1
+		fin
+		//now affiche some stars
+		stars = curWidth
+		tantque stars > 0 faire
+			affiche "*"
+			stars = stars - 1
+		fin
+		affiche "\n"
+		row = row - 1
+		curWidth = curWidth + 4
+	fin
+	levels = levels - 1
+	topWidth = topWidth + 4
+fin
+
+// affiche the trunk
+	rows = 4
+	spaces = 30 - 4
+	tantque rows > 0 faire
+		x = spaces
+		tantque x > 0 faire
+			affiche " "
+			x = x - 1
+		fin
+		affiche "||||||||\n"
+		rows = rows - 1
+	fin
+	
+	
+	
+		
+
+	
