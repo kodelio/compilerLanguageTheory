@@ -34,7 +34,7 @@ import sal.util.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import static sal.util.Fail.failEmpty;
+
 import static sal.util.RE.*;
 
 /**
@@ -42,139 +42,137 @@ import static sal.util.RE.*;
  */
 public enum Token implements Patterned {
 
-        EOF,
-        UNMATCHED,
+    EOF,
+    UNMATCHED,
 
-        NUMBER(some(in(DEC)), "<number>"),
-        
-        IDENTIFIER(ALPHA+any(in("A-Za-z0-9_")), "<identifier>"),
-        STRING(DQUOTE+any(notIn(DQUOTE)) + DQUOTE, "<string>"),
+    NUMBER(some(in(DEC)), "<number>"),
 
-        IF("si"), THEN("alors"),  ELSE("ou"), ELIF,   END("fin"),
+    IDENTIFIER(ALPHA + any(in("A-Za-z0-9_")), "<identifier>"),
+    STRING(DQUOTE + any(oneOf(BS + WILD, notIn(DQUOTE))) + DQUOTE, "<string>"),
 
-        WHILE("tantque"), DO("faire"), UNTIL,
-        
-        
-        PRINT("affiche"),
-        READ("lire"),
-        ASSIGN("="+notBefore("="), "="),
-		BREAK("rompre"),
-		CONTINUE("continue"),
+    IF("si"), THEN("alors"), ELSE("ou"), ELIF, END("fin"),
 
-        EQ("=="), NE("!="),
-        GT(">" + notBefore(">","="), ">"), GE(">="),
-        LT("<"+notBefore("<", "="), "<"), LE("<="),
+    WHILE("tantque"), DO("faire"), UNTIL,
 
-        SHL("<<"),
-        SHR(">>"+ notBefore(">"), ">>"),
-        SHRS(">>>"),
 
-        PLUS(RE.PLUS, "+"), MINUS(RE.MINUS, "-"), NEGATE(null,"-"), TIMES(RE.STAR, "*"), DIVIDE("/"), MOD("%"),
+    PRINT("affiche"),
+    READ("lire"),
+    ASSIGN("=" + notBefore("="), "="),
+    BREAK("rompre"),
+    CONTINUE("continue"),
 
-		INCREMENT,  DECREMENT,
-		
-        // punctuation ...
-        SEMICOLON(";"), COMMA(","), LP(RE.LPAR, "("), RP(RE.RPAR, ")"),
+    EQ("=="), NE("!="),
+    GT(">" + notBefore(">", "="), ">"), GE(">="),
+    LT("<" + notBefore("<", "="), "<"), LE("<="),
 
-		// tokens used to represent syntax features ...
-		STATEMENTLIST, BLOCK,				// lists of statements
+    SHL("<<"),
+    SHR(">>" + notBefore(">"), ">>"),
+    SHRS(">>>"),
 
-		// tokens to annotate the parse tree with extra information
-		TO_STR,			// int to string
-		TO_INT,			// convert string to int
-		LEN_STR,		// string length
-		PRINT_STR,		// print a string
-		PRINT_INT,		// print an int
-		READ_INT,		// read an int variable
-		READ_STR,		// read a string
-		CONCAT,			// join strings
-		RIGHT_STR,		// select rightmost chars
-		LEFT_STR,		// leftmost chars
-		FORMAT_STR,		// format a string
-		FORMAT_INT,		// format an int
-		COMPARE_STR,	// compare strings
-		
-		// for internal use - please don't change!
-		ZERO, ONE, SWAP
-		;  
-    
+    PLUS(RE.PLUS, "+"), MINUS(RE.MINUS, "-"), NEGATE(null, "-"), TIMES(RE.STAR, "*"), DIVIDE("/"), MOD("%"),
+
+    INCREMENT, DECREMENT,
+
+    // punctuation ...
+    SEMICOLON(";"), COMMA(","), LP(RE.LPAR, "("), RP(RE.RPAR, ")"),
+
+    // tokens used to represent syntax features ...
+    STATEMENTLIST, BLOCK,                // lists of statements
+
+    // tokens to annotate the parse tree with extra information
+    TO_STR,            // int to string
+    TO_INT,            // convert string to int
+    LEN_STR,        // string length
+    PRINT_STR,        // print a string
+    PRINT_INT,        // print an int
+    READ_INT,        // read an int variable
+    READ_STR,        // read a string
+    CONCAT,            // join strings
+    RIGHT_STR,        // select rightmost chars
+    LEFT_STR,        // leftmost chars
+    FORMAT_STR,        // format a string
+    FORMAT_INT,        // format an int
+    COMPARE_STR,    // compare strings
+
+    // for internal use - please don't change!
+    ZERO, ONE, SWAP;
+
     //////////// end of constants //////////////////////////
 
-        String pattern;     // REGEX used to match token
-        String asText;      // text used to display token
- 
-        Token(String pattern, boolean isOwnText)
-        {  this(pattern, null);
-           this.asText = isOwnText ? pattern : this.toString();
-        }
+    /**
+     * Create the Lexer to be used by this program.
+     */
+    static private final Lexer<Token> lexer = new Lexer(EOF, UNMATCHED, IDENTIFIER)
+            .whiteSpace(WS, comment("//"));
+    String pattern;     // REGEX used to match token
+    String asText;      // text used to display token
 
-        Token(String pattern, String text) {
-            this.pattern = pattern;
-            this.asText  = text;
-        }
+    Token(String pattern, boolean isOwnText) {
+        this(pattern, null);
+        this.asText = isOwnText ? pattern : this.toString();
+    }
 
-        Token(String pattern) {
-            this(pattern, true);
-        }
+    Token(String pattern, String text) {
+        this.pattern = pattern;
+        this.asText = text;
+    }
 
 
-        Token() { this(null, false); }
+    Token(String pattern) {
+        this(pattern, true);
+    }
 
-    public String pattern() { return pattern; }
+    Token() {
+        this(null, false);
+    }
 
-    public String asText()  { return asText; }
-    
+    static public boolean isStringName(Object s) {
+        return s.toString().endsWith("$");
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-	static public boolean isStringName(Object s) {
-		return s.toString().endsWith("$");
-	}	
-    
-    
-    
-    /** Initialise the lexer to take input from a BufferedReader via calls to scan.
+    /**
+     * Initialise the lexer to take input from a BufferedReader via calls to scan.
      *
      * @param inputReader
      */
-    static public void startLexer(BufferedReader inputReader)
-    {
+    static public void startLexer(BufferedReader inputReader) {
         lexer.input(inputReader);
     }
 
-    /** Create the Lexer to be used by this program.
-     *
-    */
-    static private final Lexer<Token> lexer =   new Lexer(EOF, UNMATCHED, IDENTIFIER)
-                                                        .whiteSpace(WS, comment("//"));
-
-
-    /** Static version of {@link Lexer#currentText()   Lexer.currentText()}}
+    /**
+     * Static version of {@link Lexer#currentText()   Lexer.currentText()}}
      *
      * @return the text of the current token
      */
-    static public String currentText() { return lexer.currentText(); }
+    static public String currentText() {
+        return lexer.currentText();
+    }
 
-    /** Static version of {@link Lexer#currentToken()   Lexer.currentToken()}}
+    /**
+     * Static version of {@link Lexer#currentToken()   Lexer.currentToken()}}
      *
      * @return the text of the current token
      */
-    static public Token currentToken() { return lexer.currentToken(); }
+    static public Token currentToken() {
+        return lexer.currentToken();
+    }
 
-    /** static variant of the {@link sal.util.Lexer#scan scan} method in {@link sal.util.Lexer Lexer}.
+    /**
+     * static variant of the {@link sal.util.Lexer#scan scan} method in {@link sal.util.Lexer Lexer}.
      *
      * @return the current token.
-     *
+     * <p>
      * scan calls the default lexer and acts on error cases (IOException or unmatched input) by printing an error message.
-     *
-    */
+     */
     static public Token scan() {
-        if(lexer.scan() == UNMATCHED) {
+        if (lexer.scan() == UNMATCHED) {
             // first check for I/O error
             IOException err = lexer.ioException();
-            if(err != null) {
+            if (err != null) {
                 parseError("I/O Exception: %s\n", err.getMessage());
-            }
-            else {
+            } else {
                 CharView buff = lexer.tokenInLine();
                 char errch = buff.charAt(0);
                 String errStr;
@@ -190,49 +188,60 @@ public enum Token implements Patterned {
         return lexer.currentToken();
     }
 
-    /** Check that the current token is as expected.
+    /**
+     * Check that the current token is as expected.
      *
      * @param tokens symbol to ignore if found: good for lazy languages
-     * where, maybe, the 'do' in {@code while ... do} is optional.
-     * @return  true if the expected token was fount, false otherwise.
+     *               where, maybe, the 'do' in {@code while ... do} is optional.
+     * @return true if the expected token was fount, false otherwise.
      */
     static public boolean tokenIn(Token... tokens) {
         return currentToken().isIn(tokens);
     }
 
-    /** Skip any token in the given list.
+    /**
+     * Skip any token in the given list.
      *
-     * @param tokens  list of tokens, any one of which can be skipped.
+     * @param tokens list of tokens, any one of which can be skipped.
      * @return true if a token was skipped, false otherwise.
      */
     static public boolean skipToken(Token... tokens) {
         boolean check = currentToken().isIn(tokens);
-        if(check) scan();
+        if (check) scan();
         return check;
     }
 
-    /** Check that the current token is as specified - produce an error message if not found.
+    /**
+     * Check that the current token is as specified - produce an error message if not found.
      *
      * @param tokens symbol to check for.
      */
     static public boolean mustBe(Token... tokens) {
         boolean check = skipToken(tokens);
-        if(! check ) {
+        if (!check) {
             parseError("Found %s when expecting %s\n", lexer.currentText(), Patterned.expected(tokens));
         }
         return check;
     }
 
- 
-    /** Log an error messages during parsing stage.
+    /**
+     * Log an error messages during parsing stage.
      *
      * @param format format string for call to printf.
      * @param args   arguments to format string.
-     *
-     *  This method is placed here only because (usually) it is the wrong token which causes an error!
+     *               <p>
+     *               This method is placed here only because (usually) it is the wrong token which causes an error!
      */
     static public void parseError(String format, Object... args) {
         ErrorStream.log(lexer.lineNumber(), lexer.tokenInLine(), format, args);
+    }
+
+    public String pattern() {
+        return pattern;
+    }
+
+    public String asText() {
+        return asText;
     }
 }
 
