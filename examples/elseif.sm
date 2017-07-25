@@ -1,8 +1,8 @@
-lire x
-if x == 1 then
-          print “hello\n”
-     elif x == 2 then
-          print “good bye\n”
-     else
-          print “are you coming or going?\n”
-end
+x = 2
+si x == 1 alors
+          affiche "hello\n"
+     sinonsi x == 2 alors
+          affiche "good bye\n"
+     sinon
+          affiche "are you coming or going?\n"
+fin

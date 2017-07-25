@@ -50,7 +50,7 @@ public enum Token implements Patterned {
     IDENTIFIER(ALPHA + any(in("A-Za-z0-9_")), "<identifier>"),
     STRING(DQUOTE + any(oneOf(BS + WILD, notIn(DQUOTE))) + DQUOTE, "<string>"),
 
-    IF("si"), THEN("alors"), ELSE("ou"), ELIF("sinonsi"), END("fin"),
+    IF("si"), THEN("alors"), ELSE("sinon"), ELIF("sinonsi"), END("fin"),
 
     WHILE("tantque"), DO("faire"), UNTIL,
 
