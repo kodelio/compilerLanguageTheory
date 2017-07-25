@@ -124,6 +124,7 @@ public class CodeGen {
 
 		switch (token) {
 
+			case HALT : emit("return"); break;
 			// generate code for a list of statements
 			case STATEMENTLIST:
 				for(Tree<Token> tst: tree.allChildren()) writeStatementCode(tst);

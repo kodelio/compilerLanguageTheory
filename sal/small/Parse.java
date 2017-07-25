@@ -79,6 +79,7 @@ public class Parse {
                 case READ:
                     aStatement = readStatement();
                     break;
+                case HALT:
                 case BREAK:
                 case CONTINUE:
                     aStatement = leaf(token);

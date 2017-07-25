@@ -1,0 +1,15 @@
+n = 1
+
+si n <= 0 alors
+    affiche "Number must be > 0\n"
+    halte
+fin
+affiche n
+affiche "\n"
+n = 0
+
+si n <= 0 alors
+    affiche "Number must be > 0\n"
+    halte
+fin
+affiche n

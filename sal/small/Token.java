@@ -61,7 +61,7 @@ public enum Token implements Patterned {
     ASSIGN("=" + notBefore("="), "="),
     BREAK("rompre"),
     CONTINUE("continue"),
-
+    HALT("halte"),
     EQ("=="), NE("!="),
     GT(">" + notBefore(">", "="), ">"), GE(">="),
     LT("<" + notBefore("<", "="), "<"), LE("<="),
