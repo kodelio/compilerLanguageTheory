@@ -1,0 +1,7 @@
+x = #20F
+
+si x == #20F alors
+    affiche "OK"
+sinon
+    affiche "PAS OK"
+fin

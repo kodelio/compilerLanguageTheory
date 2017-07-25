@@ -45,7 +45,7 @@ public enum Token implements Patterned {
     EOF,
     UNMATCHED,
 
-    NUMBER(some(in(DEC)), "<number>"),
+    NUMBER(maybe("#")+some(in("0-9A-F")), "<number>"),
 
     IDENTIFIER(ALPHA + any(in("A-Za-z0-9_")), "<identifier>"),
     STRING(DQUOTE + any(oneOf(BS + WILD, notIn(DQUOTE))) + DQUOTE, "<string>"),
