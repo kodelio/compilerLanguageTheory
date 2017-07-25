@@ -54,6 +54,7 @@ public enum Token implements Patterned {
 
     WHILE("tantque"), DO("faire"), UNTIL,
 
+    FALSE("false"), TRUE("true"),
 
     PRINT("affiche"),
     READ("lire"),
