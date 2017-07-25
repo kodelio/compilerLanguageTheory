@@ -203,20 +203,29 @@ public class CodeGen {
             }
             return;
 
-           case UNTIL: {
-                beginScope();	
-                Label continueLabel = newLabel("NEXT LOOP");
-                Label breakLabel =    newLabel("EXIT LOOP");
-                Label startLabel =    newLabel("START LOOP");
-                setLabel(startLabel); 		//	jump to here exit conmdition isn't met
-                writeStatementCode(tree.child(1)); 		// contents of do/until loop
-                setLabel(continueLabel);	// 'continue' goes to just before the test
-                writeExpressionCode(tree.child(0), INT_TYPE);  		// code for test
-                ifFalse(startLabel);		// if test fails jump back to start
-                setLabel(breakLabel);		// or continue here
-                endScope();
-            }
-            return;
+			case UNTIL: {
+				beginScope();
+				Label continueLabel = newLabel("NEXT LOOP");
+				Label breakLabel =    newLabel("EXIT LOOP");
+				Label startLabel =    newLabel("START LOOP");
+				setLabel(startLabel); 		//	jump to here exit conmdition isn't met
+				writeStatementCode(tree.child(1)); 		// contents of do/until loop
+				setLabel(continueLabel);	// 'continue' goes to just before the test
+
+				//!!!!! the following lines replace the lines
+				//!!!!!   	writeExpressionCode(tree.child(0), INT_TYPE);  	// code for test
+				//!!!!!	  	ifFalse(startLabel);		// if test fails jump back to start
+				//!!!!!  in the original version
+				Tree<Token> test = tree.child(0);
+				if(test != null) {
+					writeExpressionCode(test, INT_TYPE);  	// code for test
+					ifFalse(startLabel);		// if test fails jump back to start
+				}
+				//!!!!!!!!! end of changes
+				setLabel(breakLabel);		// or continue here
+				endScope();
+			}
+			return;
 
 
 			case BREAK: 

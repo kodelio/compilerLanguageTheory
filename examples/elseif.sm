@@ -1,0 +1,8 @@
+lire x
+if x == 1 then
+          print “hello\n”
+     elif x == 2 then
+          print “good bye\n”
+     else
+          print “are you coming or going?\n”
+end

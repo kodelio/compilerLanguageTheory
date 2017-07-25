@@ -86,6 +86,7 @@ public class Parse {
         mustBe(THEN);
         t = list(IF, t, statementList());
 		// insert code for any number of 'elif's here
+        
 		
         if(skipToken(ELSE)) {
 			t.addChild(null);			 // 'no test'
@@ -279,10 +280,14 @@ public class Parse {
 								t = leaf(token, value);
 								break; 
 							}
-			
-	
+
+
             case MINUS:     scan();	// step over operator
-							return list(token, term()); 
+                //!!!!! the following line replaces the line
+                //!!!!!   	return list(token, term());
+                //!!!!!  in the original version
+                return list(NEGATE, term());
+
 
             default :       mustBe(IDENTIFIER, NUMBER, MINUS,
 									LP, TO_INT, TO_STR, LEN_STR);  // didn't find the start of an expression - there has to be one;
