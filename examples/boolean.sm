@@ -1,0 +1,8 @@
+x = true
+si x == true alors
+          affiche "true\n"
+     sinonsi x == false alors
+          affiche "false\n"
+     sinon
+          affiche "LOL\n"
+fin

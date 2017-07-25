@@ -300,6 +300,13 @@ public class Parse {
                 t = leaf(token, value);
                 break;
 
+            case FALSE:
+                t = leaf(NUMBER, "0");
+                break;
+
+            case TRUE:
+                t = leaf(NUMBER, "1");
+                break;
 
             case NUMBER: {
                 if (value.charAt(0) == '#') {
