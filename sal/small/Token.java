@@ -70,9 +70,9 @@ public enum Token implements Patterned {
     SHR(">>" + notBefore(">"), ">>"),
     SHRS(">>>"),
 
-    PLUS(RE.PLUS, "+"), MINUS(RE.MINUS, "-"), NEGATE(null, "-"), TIMES(RE.STAR, "*"), DIVIDE("/"), MOD("%"),
+    PLUS(RE.PLUS + notBefore(RE.PLUS), "+"), MINUS(RE.MINUS + notBefore(RE.MINUS), "-"), NEGATE(null, "-"), TIMES(RE.STAR, "*"), DIVIDE("/"), MOD("%"),
 
-    INCREMENT, DECREMENT,
+    INCREMENT(RE.PLUS + RE.PLUS), DECREMENT(RE.MINUS + RE.MINUS),
 
     // punctuation ...
     SEMICOLON(";"), COMMA(","), LP(RE.LPAR, "("), RP(RE.RPAR, ")"),
