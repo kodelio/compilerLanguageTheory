@@ -209,14 +209,24 @@ public class CodeGen {
 				Label continueLabel = newLabel("NEXT LOOP");
 				Label breakLabel =    newLabel("EXIT LOOP");
 				Label startLabel =    newLabel("START LOOP");
-				setLabel(startLabel); 		//	jump to here exit conmdition isn't met
-				writeStatementCode(tree.child(1)); 		// contents of do/until loop
+				// the start of the loop - if the until condition isn't met code returns to here
+				setLabel(startLabel);
+				// insert the code to be executed inside the loop
+				writeStatementCode(tree.child(1));
+				// the point at which the test is made - if there is one
 				setLabel(continueLabel);	// 'continue' goes to just before the test
+				////////////////////////////////////////////////////////////////////////
+				// find out if a test is to be made
 				Tree<Token> test = tree.child(0);
 				if(test != null) {
+					// there is an until part test for it
 					writeExpressionCode(test, INT_TYPE);  	// code for test
 					ifFalse(startLabel);		// if test fails jump back to start
 				}
+				else {
+					jump(startLabel);
+				}
+				///////////////////////////////////////////////////////////////////////
 				setLabel(breakLabel);		// or continue here
 				endScope();
 			}
