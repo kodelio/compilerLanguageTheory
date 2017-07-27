@@ -25,10 +25,10 @@
 |Break| `"break"`
 |Continue| `"continue"`
 |Item|`StringLiteral \| Expression`
-|Expression| `T1 (RelOperator T1)?`
-|T0| `T2 (AddOperators T2)*`
-|T0| `T3 (MulOperators T3)*`
-|T0| `Number \| StringLiteral \| Identifier`
+|Expression| `T0 (RelOperator T0)?`
+|T0| `T1 (AddOperators T1)*`
+|T1| `T2 (MulOperators T2)*`
+|T2| `Number \| StringLiteral \| Identifier`
 |RelOperators| `<\|<=\|==\|!=\|>=\|>`
 |AddOperators| `+\|-`
 |MulOperators| `*\|/\|%\|<<\|<<<\|>>`
