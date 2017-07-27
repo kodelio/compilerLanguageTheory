@@ -23,64 +23,75 @@ import java.util.Scanner;
 
 public class Library {
 
-        private static Scanner scanInput = new Scanner(System.in);
+    private static Scanner scanInput = new Scanner(System.in);
 
-        public static void print(String s) {
-            System.out.print(s);
+    public static void print(String s) {
+        System.out.print(s);
+    }
+
+    public static void print(int n) {
+        System.out.print(n);
+    }
+
+    public static int readInt() {
+        return scanInput.nextInt();
+    }
+
+    public static String readStr() {
+        return scanInput.nextLine();
+    }
+
+    public static int abs(int n) {
+        return java.lang.Math.abs(n);
+    }
+
+    public static int max(int n, int m) {
+        return java.lang.Math.max(n, m);
+    }
+
+    public static int min(int n, int m) {
+        return java.lang.Math.min(n, m);
+    }
+
+    public static String concat(String a, String b) {
+        return a + b;
+    }
+
+    public static String toStr(String format, int n) {
+        return String.format(format, n);
+    }
+
+    public static String toStr(int n) {
+        return Integer.toString(n);
+    }
+
+    public static int toInt(String s) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return Integer.MIN_VALUE;
         }
+    }
 
-        public static void print(int n) {
-            System.out.print(n);
-        }
+    public static String left(String s, int n) {
+        if (n <= 0) return "";
+        if (n > s.length()) return s;    // whole string
+        return s.substring(0, n);
+    }
 
-        public static int readInt() {
-            return scanInput.nextInt();
-        }
+    public static String right(String s, int n) {
+        if (n <= 0) return "";
+        int start = s.length() - n;
+        if (start < 0) start = 0;    // whole string
+        return s.substring(start);
+    }
 
-        public static String readStr() {
-            return scanInput.nextLine();
-        }
+    public static int strCmp(String s1, String s2) {
+        return s1.compareTo(s2);
+    }
 
-        public static int abs(int n) { return java.lang.Math.abs(n); }
-
-        public static int max(int n, int m) { return java.lang.Math.max(n, m); }
-
-        public static int min(int n, int m) { return java.lang.Math.min(n, m); }
-        
-        public static String concat(String a, String b) { return a + b; }
-
-		public static String toStr(String format, int n) { return String.format(format, n); }
-
-		public static String toStr(int n) { return Integer.toString(n); }
-
-		public static int toInt(String s) {
-			try {
-				return Integer.parseInt(s);
-			} catch (NumberFormatException e) {
-				return Integer.MIN_VALUE;
-			}
-		}
-
-		public static String left(String s, int n) {
-			if(n <= 0) return "";
-			if(n > s.length()) return s;	// whole string
-			return s.substring(0, n);
-		}
-
-		public static String right(String s, int n) {
-			if(n <= 0) return "";
-			int start = s.length() - n;
-			if(n < 0) n = 0;	// whole string
-			return s.substring(n);
-		}
-		
-		public static int strCmp(String s1, String s2) 
-		{
-			return s1.compareTo(s2);
-		}
-	 
-		public static int len(String s) {
-			return s.length();
-		}
+    public static int len(String s) {
+        return s.length();
+    }
 
 }

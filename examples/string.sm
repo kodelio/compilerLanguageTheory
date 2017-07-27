@@ -1,0 +1,16 @@
+x$ = "meh\n"
+ecrire x$
+y$ = "It is " + str 2017 + "\n"
+ecrire y$
+
+y$ = 2017
+ecrire y$
+
+y = int 2017
+ecrire y
+
+y$ = str "2017"
+ecrire y$
+
+y = len "2017"
+ecrire y

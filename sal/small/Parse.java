@@ -196,12 +196,7 @@ public class Parse {
         Tree<Token> printList = list(STATEMENTLIST);
         do {
             Tree<Token> printExpr;
-            if (currentToken() == STRING) {
-                printExpr = leaf(STRING, currentText());
-                scan();
-            } else {
-                printExpr = expression();
-            }
+            printExpr = expression();
             printList.addChild(list(PRINT, printExpr));
         } while (skipToken(COMMA));
 
@@ -297,6 +292,7 @@ public class Parse {
 
 
             case IDENTIFIER:
+            case STRING:
                 t = leaf(token, value);
                 break;
 
@@ -310,6 +306,12 @@ public class Parse {
                 break;
             }
 
+            case TO_STR:
+            case TO_INT:
+            case LEN_STR:
+                scan();
+                return list(token, term());
+
 
             case MINUS:
                 scan();    // step over operator
@@ -320,8 +322,8 @@ public class Parse {
 
 
             default:
-                mustBe(IDENTIFIER, NUMBER, MINUS,
-                        LP, TO_INT, TO_STR, LEN_STR);  // didn't find the start of an expression - there has to be one;
+                mustBe(IDENTIFIER, NUMBER, MINUS, STRING, LP, TO_INT, TO_STR, LEN_STR);
+                // didn't find the start of an expression - there has to be one;
                 break;
 
         }

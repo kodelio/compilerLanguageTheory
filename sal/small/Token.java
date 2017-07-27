@@ -47,7 +47,7 @@ public enum Token implements Patterned {
 
     NUMBER(some(in(DEC)), "<number>"),
 
-    IDENTIFIER(ALPHA + any(in("A-Za-z0-9_")), "<identifier>"),
+    IDENTIFIER(ALPHA + any(in("A-Za-z0-9_")) + maybe(DOLLAR), "<identifier>"),
     STRING(DQUOTE + any(oneOf(BS + WILD, notIn(DQUOTE))) + DQUOTE, "<string>"),
 
     IF("si"), THEN("alors"), ELSE("ou"), ELIF("sinonsi"), END("fin"),
@@ -55,7 +55,7 @@ public enum Token implements Patterned {
     WHILE("tantque"), DO("faire"), UNTIL,
 
 
-    PRINT("affiche"),
+    PRINT("ecrire"),
     READ("lire"),
     ASSIGN("=" + notBefore("="), "="),
     BREAK("rompre"),
@@ -80,9 +80,9 @@ public enum Token implements Patterned {
     STATEMENTLIST, BLOCK,                // lists of statements
 
     // tokens to annotate the parse tree with extra information
-    TO_STR,            // int to string
-    TO_INT,            // convert string to int
-    LEN_STR,        // string length
+    TO_STR("str"),            // int to string
+    TO_INT("int"),            // convert string to int
+    LEN_STR("len"),        // string length
     PRINT_STR,        // print a string
     PRINT_INT,        // print an int
     READ_INT,        // read an int variable
