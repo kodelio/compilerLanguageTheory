@@ -45,22 +45,23 @@ public enum Token implements Patterned {
     EOF,
     UNMATCHED,
 
-    NUMBER(some(in(DEC)), "<number>"),
+    NUMBER(maybe("#")+some(in("0-9A-F")), "<number>"),
 
     IDENTIFIER(ALPHA + any(in("A-Za-z0-9_")) + maybe(DOLLAR), "<identifier>"),
     STRING(DQUOTE + any(oneOf(BS + WILD, notIn(DQUOTE))) + DQUOTE, "<string>"),
 
-    IF("si"), THEN("alors"), ELSE("ou"), ELIF("sinonsi"), END("fin"),
+    IF("si"), THEN("alors"), ELSE("sinon"), ELIF("sinonsi"), END("fin"),
 
-    WHILE("tantque"), DO("faire"), UNTIL,
+    WHILE("tantque"), DO("faire"), UNTIL("jusquaceque"),
 
+    FALSE("false"), TRUE("true"),
 
     PRINT("ecrire"),
     READ("lire"),
     ASSIGN("=" + notBefore("="), "="),
     BREAK("rompre"),
     CONTINUE("continue"),
-
+    HALT("halte"),
     EQ("=="), NE("!="),
     GT(">" + notBefore(">", "="), ">"), GE(">="),
     LT("<" + notBefore("<", "="), "<"), LE("<="),
@@ -69,9 +70,9 @@ public enum Token implements Patterned {
     SHR(">>" + notBefore(">"), ">>"),
     SHRS(">>>"),
 
-    PLUS(RE.PLUS, "+"), MINUS(RE.MINUS, "-"), NEGATE(null, "-"), TIMES(RE.STAR, "*"), DIVIDE("/"), MOD("%"),
+    PLUS(RE.PLUS + notBefore(RE.PLUS), "+"), MINUS(RE.MINUS + notBefore(RE.MINUS), "-"), NEGATE(null, "-"), TIMES(RE.STAR, "*"), DIVIDE("/"), MOD("%"),
 
-    INCREMENT, DECREMENT,
+    INCREMENT(RE.PLUS + RE.PLUS), DECREMENT(RE.MINUS + RE.MINUS),
 
     // punctuation ...
     SEMICOLON(";"), COMMA(","), LP(RE.LPAR, "("), RP(RE.RPAR, ")"),

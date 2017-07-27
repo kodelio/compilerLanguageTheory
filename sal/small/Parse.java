@@ -79,6 +79,7 @@ public class Parse {
                 case READ:
                     aStatement = readStatement();
                     break;
+                case HALT:
                 case BREAK:
                 case CONTINUE:
                     aStatement = leaf(token);
@@ -141,27 +142,29 @@ public class Parse {
     public static Tree<Token> doStatement() {
         // The operations needed here a similar to 'while' above
         // 1. get the next token
-
+        scan();
         // 2. declare an AST (Tree<Token>) object called body and
         //    set it by calling statementList() and assigning the result to it.
-
+        Tree<Token> body = statementList();
         // 3.  your program has read everything upto either 'until' or 'end'
         // check if the next token is UNTIL, if so skip it
         // (see treatement of 'else' in 'if' statement above)
-
-        // 4. if until is found, return the rest of the AST by using
-        //  return list(UNTIL, expression(), body)
-        // do you understand what is happening?   What will be the AST
-        //  of a simple do/until example?
-
+        if (skipToken(UNTIL)) {
+            // 4. if until is found, return the rest of the AST by using
+            return list(UNTIL, expression(), body);
+            // do you understand what is happening?   What will be the AST
+            //  of a simple do/until example?
+        }
         // 5. if UNTIL wasn't found the next token should be END (use mustBe)
-        //
+        else
+        {
+            mustBe(END);
+        }
         // 6. Whether END was found or not,
-        // return list(WHILE, null, body)
+        return list(WHILE, null, body);
         // a while statement with no test
 
         // 7. and delete the line 'return null;' after this one
-        return null;
     }
 
     /**
@@ -296,6 +299,13 @@ public class Parse {
                 t = leaf(token, value);
                 break;
 
+            case FALSE:
+                t = leaf(NUMBER, "0");
+                break;
+
+            case TRUE:
+                t = leaf(NUMBER, "1");
+                break;
 
             case NUMBER: {
                 if (value.charAt(0) == '#') {
@@ -314,7 +324,7 @@ public class Parse {
 
 
             case MINUS:
-                scan();    // step over operator
+                scan();	// step over operator
                 //!!!!! the following line replaces the line
                 //!!!!!   	return list(token, term());
                 //!!!!!  in the original version

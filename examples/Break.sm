@@ -1,0 +1,18 @@
+affiche "Entre la valeur de x \n"
+lire x
+y = 0
+
+
+tantque x < 30 faire
+x = x + 1
+rompre
+y = 3
+fin
+
+affiche x
+
+si y == 3 alors
+affiche "\nla fonction rompre ne fonctionne pas"
+sinon
+affiche "\nla fonction rompre fonctionne"
+fin

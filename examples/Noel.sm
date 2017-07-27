@@ -3,43 +3,43 @@ levels 		= 4	// number of levels of Christmast tree
 topWidth 	= 1 // number of stars at top
 depth		= 5	// number of rows /level
 
-while levels > 0 do
-	
+tantque levels > 0 faire
+
 	
 	curWidth = topWidth
 	row = depth
-	while row > 0 do
+	tantque row > 0 faire
 		spaces = 30 - curWidth / 2	
-		while spaces > 0 do
-			print " "
+		tantque spaces > 0 faire
+			affiche " "
 			spaces = spaces - 1
-		end
+		fin
 		//now print some stars
 		stars = curWidth
-		while stars > 0 do
-			print "*"
+		tantque stars > 0 faire
+			affiche "*"
 			stars = stars - 1
-		end
-		print "\n"
+		fin
+		affiche "\n"
 		row = row - 1
 		curWidth = curWidth + 4
-	end
+	fin
 	levels = levels - 1
 	topWidth = topWidth + 4
-end
+fin
 
 // print the trunk
 	rows = 4
 	spaces = 30 - 4
-	while rows > 0 do
+	tantque rows > 0 faire
 		x = spaces
-		while x > 0 do
-			print " "
+		tantque x > 0 faire
+			affiche " "
 			x = x - 1
-		end
-		print "||||||||\n"
+		fin
+		affiche "||||||||\n"
 		rows = rows - 1
-	end
+	fin
 	
 	
 	

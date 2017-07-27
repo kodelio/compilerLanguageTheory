@@ -1,0 +1,4 @@
+x = 1
+affiche x
+x++
+affiche x
