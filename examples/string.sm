@@ -1,16 +1,16 @@
 x$ = "meh\n"
-ecrire x$
+affiche x$
 y$ = "It is " + str 2017 + "\n"
-ecrire y$
+affiche y$
 
 y$ = 2017
-ecrire y$
+affiche y$
 
 y = int 2017
-ecrire y
+affiche y
 
 y$ = str "2017"
-ecrire y$
+affiche y$
 
 y = len "2017"
-ecrire y
+affiche y

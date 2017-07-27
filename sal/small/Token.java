@@ -56,7 +56,7 @@ public enum Token implements Patterned {
 
     FALSE("false"), TRUE("true"),
 
-    PRINT("ecrire"),
+    PRINT("affiche"),
     READ("lire"),
     ASSIGN("=" + notBefore("="), "="),
     BREAK("rompre"),
