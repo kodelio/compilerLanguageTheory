@@ -17,7 +17,7 @@
 |WhileStatement | `"While" Expression "Do" StatementList "end"`
 |UntilStatement | `"Until" Expression "Do" StatementList "end"`
 |DoStatement | `"do" StatementList (("Until"\|"While") Expression)? "end"`
-|IfStatement | `"if" Expression Then StatementList ("elif" Expression "then" StatementList)* ("else" StatementList) end`
+|IfStatement | `"if" Expression "then" StatementList ("elif" Expression "then" StatementList)* ("else" StatementList) end`
 |PrintStatement | `"print" Item ("," Item)*`
 |ReadStatement | `"read" Name ("," Name)*`
 |Assignment| `Name "++"\|"--"\|("=" Expression)`
